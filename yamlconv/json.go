@@ -3,9 +3,10 @@ package yamlconv
 import (
 	"encoding/json"
 	"fmt"
-	"gopkg.in/yaml.v3"
 	"strconv"
 	"strings"
+
+	"gopkg.in/yaml.v3"
 )
 
 const (
