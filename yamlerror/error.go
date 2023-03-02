@@ -1,4 +1,4 @@
-package yamlconv
+package yamlerror
 
 import (
 	"fmt"
@@ -9,6 +9,13 @@ import (
 type ErrorWrongNodeType struct {
 	want yaml.Kind
 	got  yaml.Kind
+}
+
+func NewErrorWrongNodeType(want, got yaml.Kind) ErrorWrongNodeType {
+	return ErrorWrongNodeType{
+		want: want,
+		got:  got,
+	}
 }
 
 func (err ErrorWrongNodeType) Error() string {

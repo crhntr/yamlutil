@@ -2,6 +2,8 @@ package yamlconv
 
 import (
 	"gopkg.in/yaml.v3"
+
+	"github.com/crhntr/yamlutil/yamlerror"
 )
 
 // MakeMap makes a map out of a yaml.MappingNode using the given functions
@@ -26,5 +28,5 @@ func MakeMap[K comparable, V any](node *yaml.Node, parseKey func(n *yaml.Node) (
 		}
 		return m, nil
 	}
-	return nil, ErrorWrongNodeType{want: yaml.MappingNode, got: node.Kind}
+	return nil, yamlerror.NewErrorWrongNodeType(yaml.MappingNode, node.Kind)
 }
