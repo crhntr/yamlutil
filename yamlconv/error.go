@@ -1,4 +1,4 @@
-package yamltree
+package yamlconv
 
 import (
 	"fmt"
