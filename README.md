@@ -2,12 +2,12 @@
 
 This repository has utilities for working with the Node type in [YAML V3](https://pkg.go.dev/gopkg.in/yaml.v3).
 
-## Th yamlconv package
+## The yamlconv package
 
 - It has a function to convert a `*yaml.Node` to JSON.
 - It also contains a function to convert a `*yaml.Node` with `yaml.Kind` `yaml.DocumentNode` or  `yaml.MappingNode` to a Go map. 
 
-## Th yamltree package
+## The yamlnode package
 
 Contains a Walk function to traverse a YAML document.
 It also contains, a method to lookup the value given a (string) key in a `yaml.DocumentNode` or  `yaml.MappingNode`.

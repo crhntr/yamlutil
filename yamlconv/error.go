@@ -1,4 +1,4 @@
-package yamlerror
+package yamlconv
 
 import (
 	"fmt"

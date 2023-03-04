@@ -1,4 +1,4 @@
-package yamltree
+package yamlnode
 
 import "gopkg.in/yaml.v3"
 

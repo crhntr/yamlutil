@@ -1,4 +1,4 @@
-package yamltree_test
+package yamlnode_test
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
 
-	"github.com/crhntr/yamlutil/yamltree"
+	"github.com/crhntr/yamlutil/yamlnode"
 )
 
 func Test_LookupKey(t *testing.T) {
@@ -30,7 +30,7 @@ func Test_LookupKey(t *testing.T) {
 			require.NoError(t, err)
 
 			require.NotPanics(t, func() {
-				v, found := yamltree.LookupKey(&node, tt.InputKey)
+				v, found := yamlnode.LookupKey(&node, tt.InputKey)
 				assert.Equal(t, found, tt.ExpectFound)
 
 				if tt.ExpectValue != nil {
