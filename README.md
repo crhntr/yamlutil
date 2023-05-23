@@ -1,4 +1,4 @@
-# yamlutil [![Go Reference](https://pkg.go.dev/badge/github.com/crhntr/yamlutil.svg)](https://pkg.go.dev/github.com/crhntr/yamlutil)
+# yamlutil [![Go Reference](https://pkg.go.dev/badge/github.com/crhntr/yamlutil.svg)](https://pkg.go.dev/github.com/crhntr/yamlutil) [![Go](https://github.com/crhntr/yamlutil/actions/workflows/go.yml/badge.svg)](https://github.com/crhntr/yamlutil/actions/workflows/go.yml)
 
 This repository has utilities for working with the Node type in [YAML V3](https://pkg.go.dev/gopkg.in/yaml.v3).
 
