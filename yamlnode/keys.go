@@ -3,6 +3,9 @@ package yamlnode
 import "gopkg.in/yaml.v3"
 
 func LookupKey(node *yaml.Node, key string) (*yaml.Node, bool) {
+	if node == nil {
+		return nil, false
+	}
 	switch node.Kind {
 	case yaml.DocumentNode:
 		if len(node.Content) == 1 {
