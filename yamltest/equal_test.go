@@ -2,9 +2,10 @@ package yamltest
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
-	"testing"
 )
 
 func TestAssertEqual(t *testing.T) {
