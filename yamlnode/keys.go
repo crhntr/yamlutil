@@ -8,8 +8,11 @@ func LookupKey(node *yaml.Node, key string) (*yaml.Node, bool) {
 	}
 	switch node.Kind {
 	case yaml.DocumentNode:
-		if len(node.Content) == 1 {
-			return LookupKey(node.Content[0], key)
+		for _, c := range node.Content {
+			found, isFound := LookupKey(c, key)
+			if isFound {
+				return found, isFound
+			}
 		}
 	case yaml.MappingNode:
 		for i := 0; i+1 < len(node.Content); i += 2 {
@@ -17,6 +20,7 @@ func LookupKey(node *yaml.Node, key string) (*yaml.Node, bool) {
 				return node.Content[i+1], true
 			}
 		}
+	case yaml.ScalarNode, yaml.AliasNode, yaml.SequenceNode:
 	}
 	return nil, false
 }
@@ -30,6 +34,7 @@ func Keys(node *yaml.Node) []*yaml.Node {
 		for i := 0; i < len(node.Content); i += 2 {
 			result = append(result, node.Content[i])
 		}
+	case yaml.ScalarNode, yaml.AliasNode, yaml.SequenceNode:
 	}
 	return result
 }
