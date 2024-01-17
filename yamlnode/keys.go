@@ -2,6 +2,9 @@ package yamlnode
 
 import "gopkg.in/yaml.v3"
 
+// LookupKey does a simple lookup of a string key in a yaml.MappingNode
+// it does not support recursive lookup, or any other fancy features.
+// Consider using Walk or github.com/mikefarah/yq/v3/pkg/yqlib for more sophisticated queries.
 func LookupKey(node *yaml.Node, key string) (*yaml.Node, bool) {
 	if node == nil {
 		return nil, false
@@ -25,6 +28,7 @@ func LookupKey(node *yaml.Node, key string) (*yaml.Node, bool) {
 	return nil, false
 }
 
+// Keys returns the keys of a yaml.MappingNode.
 func Keys(node *yaml.Node) []*yaml.Node {
 	var result []*yaml.Node
 	switch node.Kind {
@@ -39,6 +43,7 @@ func Keys(node *yaml.Node) []*yaml.Node {
 	return result
 }
 
+// ValuesStrings returns the values of a list of nodes.
 func ValuesStrings(nodes []*yaml.Node) []string {
 	result := make([]string, 0, len(nodes))
 	for _, x := range nodes {

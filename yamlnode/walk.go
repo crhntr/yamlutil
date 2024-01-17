@@ -4,6 +4,9 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// Walk walks a yaml.Node tree, calling fn on each node.
+// If fn returns an error, Walk returns that error and stops walking.
+// Aliases are followed and may cause an infinite loop.
 func Walk(node *yaml.Node, fn func(node *yaml.Node) error, kinds yaml.Kind) error {
 	if node.Kind&kinds != 0 {
 		err := fn(node)

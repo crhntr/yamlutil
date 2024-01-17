@@ -13,6 +13,8 @@ import (
 	"github.com/crhntr/yamlutil/yamlnode"
 )
 
+// AssertEqual asserts that two yaml.Node trees are equal.
+// It follows aliases.
 func AssertEqual(t *testing.T, a, b *yaml.Node) {
 	t.Helper()
 	assertEqual(t, a, b, "")
