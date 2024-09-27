@@ -35,8 +35,8 @@ func assertEqual(t require.TestingT, a, b *yaml.Node, p string) {
 	case yaml.DocumentNode:
 		assertEqual(t, a.Content[0], b.Content[0], "")
 	case yaml.MappingNode:
-		aKeys := yamlnode.ValuesStrings(yamlnode.Keys(a))
-		bKeys := yamlnode.ValuesStrings(yamlnode.Keys(b))
+		aKeys := slices.Collect(yamlnode.ValuesStrings(slices.Collect(yamlnode.Keys(a))))
+		bKeys := slices.Collect(yamlnode.ValuesStrings(slices.Collect(yamlnode.Keys(b))))
 		assert.Equal(t, aKeys, bKeys, p)
 		keys := append(aKeys[:len(aKeys):len(aKeys)], bKeys...)
 		slices.Sort(keys)

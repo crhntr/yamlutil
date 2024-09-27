@@ -9,7 +9,7 @@ func MakeMap[K comparable, V any](node *yaml.Node, parseKey func(n *yaml.Node) (
 	switch node.Kind {
 	case yaml.DocumentNode:
 		if len(node.Content) == 1 {
-			return MakeMap(node.Content[0], parseKey, parseValue)
+			return MakeMap[K, V](node.Content[0], parseKey, parseValue)
 		}
 	case yaml.MappingNode:
 		m := make(map[K]V)
@@ -25,6 +25,7 @@ func MakeMap[K comparable, V any](node *yaml.Node, parseKey func(n *yaml.Node) (
 			m[k] = v
 		}
 		return m, nil
+	default:
 	}
 	return nil, NewErrorWrongNodeType(yaml.MappingNode, node.Kind)
 }
