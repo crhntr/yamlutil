@@ -17,6 +17,19 @@ func TestToJSON(t *testing.T) {
 		})
 	})
 
+	t.Run("mapping with a key missing its value", func(t *testing.T) {
+		node := &yaml.Node{
+			Kind: yaml.MappingNode,
+			Content: []*yaml.Node{
+				{Kind: yaml.ScalarNode, Tag: "!!str", Value: "orphan"},
+			},
+		}
+		require.NotPanics(t, func() {
+			_, err := yamlconv.ToJSON(nil, node)
+			assert.Error(t, err)
+		})
+	})
+
 	t.Run("multiple documents", func(t *testing.T) {
 		node := &yaml.Node{
 			Kind: yaml.DocumentNode,

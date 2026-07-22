@@ -35,25 +35,23 @@ func ToJSON(buf []byte, node *yaml.Node) ([]byte, error) {
 	case yaml.AliasNode:
 		return ToJSON(buf, node.Alias)
 	case yaml.MappingNode:
+		if len(node.Content)%2 != 0 {
+			return nil, fmt.Errorf("mapping node has odd number of children %d", len(node.Content))
+		}
 		buf = append(buf, '{')
-		var err error
 		for i := 0; i < len(node.Content); i += 2 {
-			key := node.Content[i]
-			value := node.Content[i+1]
-			if i < len(node.Content)-1 {
-				keyBuf, err := json.Marshal(key.Value)
-				if err != nil {
-					return nil, err
-				}
-				buf = append(buf, keyBuf...)
+			if i > 0 {
+				buf = append(buf, ',')
 			}
-			buf = append(buf, ':')
-			buf, err = ToJSON(buf, value)
+			keyBuf, err := json.Marshal(node.Content[i].Value)
 			if err != nil {
 				return nil, err
 			}
-			if i < len(node.Content)-2 {
-				buf = append(buf, ',')
+			buf = append(buf, keyBuf...)
+			buf = append(buf, ':')
+			buf, err = ToJSON(buf, node.Content[i+1])
+			if err != nil {
+				return nil, err
 			}
 		}
 		buf = append(buf, '}')
