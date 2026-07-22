@@ -25,6 +25,9 @@ func MakeMap[K comparable, V any](node *yaml.Node, parseKey func(n *yaml.Node) (
 			if err != nil {
 				return nil, err
 			}
+			if _, exists := m[k]; exists {
+				return nil, fmt.Errorf("duplicate key %v", k)
+			}
 			m[k] = v
 		}
 		return m, nil

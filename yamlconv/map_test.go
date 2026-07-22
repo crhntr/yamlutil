@@ -30,6 +30,7 @@ func TestMakeMap(t *testing.T) {
 	}{
 		{Name: "mapping", InputYAML: `{a: 1, b: 2}`, Expect: map[string]int{"a": 1, "b": 2}},
 		{Name: "empty mapping", InputYAML: `{}`, Expect: map[string]int{}},
+		{Name: "duplicate keys", InputYAML: "a: 1\na: 2\n", ExpectErr: true},
 		{Name: "sequence", InputYAML: `[1, 2]`, ExpectErr: true},
 		{Name: "scalar", InputYAML: `5`, ExpectErr: true},
 	} {
