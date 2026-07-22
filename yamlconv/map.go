@@ -1,6 +1,8 @@
 package yamlconv
 
 import (
+	"fmt"
+
 	"gopkg.in/yaml.v3"
 )
 
@@ -8,9 +10,10 @@ import (
 func MakeMap[K comparable, V any](node *yaml.Node, parseKey func(n *yaml.Node) (K, error), parseValue func(n *yaml.Node) (V, error)) (map[K]V, error) {
 	switch node.Kind {
 	case yaml.DocumentNode:
-		if len(node.Content) == 1 {
-			return MakeMap[K, V](node.Content[0], parseKey, parseValue)
+		if len(node.Content) != 1 {
+			return nil, fmt.Errorf("cannot make a map from a document node with %d children", len(node.Content))
 		}
+		return MakeMap(node.Content[0], parseKey, parseValue)
 	case yaml.MappingNode:
 		m := make(map[K]V)
 		for i := 0; i+1 < len(node.Content); i += 2 {
