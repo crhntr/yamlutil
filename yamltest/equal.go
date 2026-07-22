@@ -21,6 +21,12 @@ func AssertEqual(t *testing.T, a, b *yaml.Node) {
 }
 
 func assertEqual(t require.TestingT, a, b *yaml.Node, p string) {
+	if a == nil || b == nil {
+		if a != b {
+			t.Errorf("nil node mismatch at %s: a is nil: %t, b is nil: %t", p, a == nil, b == nil)
+		}
+		return
+	}
 	if a.Kind == yaml.AliasNode {
 		assertEqual(t, a.Alias, b, p)
 		return

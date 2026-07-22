@@ -75,6 +75,30 @@ x:
 		})
 	}
 
+	t.Run("nil nodes are equal", func(t *testing.T) {
+		mock := new(mockT)
+		require.NotPanics(t, func() {
+			assertEqual(mock, nil, nil, "")
+		})
+		require.False(t, mock.Failed)
+	})
+
+	t.Run("nil and non-nil nodes are not equal", func(t *testing.T) {
+		mock := new(mockT)
+		require.NotPanics(t, func() {
+			assertEqual(mock, nil, &yaml.Node{Kind: yaml.ScalarNode, Tag: "!!int", Value: "1"}, "")
+		})
+		require.True(t, mock.Failed)
+	})
+
+	t.Run("alias with nil target does not panic", func(t *testing.T) {
+		mock := new(mockT)
+		require.NotPanics(t, func() {
+			assertEqual(mock, &yaml.Node{Kind: yaml.AliasNode}, &yaml.Node{Kind: yaml.ScalarNode, Tag: "!!int", Value: "1"}, "")
+		})
+		require.True(t, mock.Failed)
+	})
+
 	t.Run("exported", func(t *testing.T) {
 		var a, b yaml.Node
 		require.NoError(t, yaml.Unmarshal([]byte(`{}`), &a))
