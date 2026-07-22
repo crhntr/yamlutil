@@ -28,6 +28,9 @@ func ToJSON(buf []byte, node *yaml.Node) ([]byte, error) {
 			buf = append(buf, []byte(`{}`)...)
 			return buf, nil
 		}
+		if len(node.Content) > 1 {
+			return nil, fmt.Errorf("cannot encode a document node with %d children as JSON", len(node.Content))
+		}
 		return ToJSON(buf, node.Content[0])
 	case yaml.AliasNode:
 		return ToJSON(buf, node.Alias)

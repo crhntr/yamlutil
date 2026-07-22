@@ -17,6 +17,18 @@ func TestToJSON(t *testing.T) {
 		})
 	})
 
+	t.Run("multiple documents", func(t *testing.T) {
+		node := &yaml.Node{
+			Kind: yaml.DocumentNode,
+			Content: []*yaml.Node{
+				{Kind: yaml.ScalarNode, Tag: "!!int", Value: "1"},
+				{Kind: yaml.ScalarNode, Tag: "!!int", Value: "2"},
+			},
+		}
+		_, err := yamlconv.ToJSON(nil, node)
+		assert.Error(t, err)
+	})
+
 	for _, tt := range []struct {
 		Name,
 		inYAML, outJSON string
