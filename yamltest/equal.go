@@ -68,7 +68,7 @@ func assertEqual(t require.TestingT, a, b *yaml.Node, p string) {
 		assert.Zero(t, *a)
 		assert.Zero(t, *b)
 	default:
-		panic(fmt.Sprintf("un-supported node type %d at %s", a.Kind, p))
+		t.Errorf("un-supported node kind %d at %s", a.Kind, p)
 	}
 }
 

@@ -132,6 +132,14 @@ x:
 		require.True(t, mock.Failed)
 	})
 
+	t.Run("unknown node kind fails instead of panicking", func(t *testing.T) {
+		mock := new(mockT)
+		require.NotPanics(t, func() {
+			assertEqual(mock, &yaml.Node{Kind: yaml.Kind(99)}, &yaml.Node{Kind: yaml.Kind(99)}, "")
+		})
+		require.True(t, mock.Failed)
+	})
+
 	t.Run("exported", func(t *testing.T) {
 		var a, b yaml.Node
 		require.NoError(t, yaml.Unmarshal([]byte(`{}`), &a))
