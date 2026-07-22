@@ -31,7 +31,7 @@ func LookupValueFunc(node *yaml.Node, checkKey func(n *yaml.Node) bool) (*yaml.N
 // It uses KeyValue and will iterate yaml.DocumentNode and yaml.AliasNode.
 func Keys(node *yaml.Node) iter.Seq[*yaml.Node] {
 	return func(yield func(*yaml.Node) bool) {
-		for k, _ := range KeyValue(node) {
+		for k := range KeyValue(node) {
 			if !yield(k) {
 				return
 			}
