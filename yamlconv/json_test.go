@@ -112,6 +112,19 @@ x:
 `, outJSON: `{"x":{"y":{"z":7}}}`,
 		},
 		{
+			Name: "non-decimal integers",
+			inYAML: `---
+- 0x1F
+- 0o17
+- 1_000
+- +5
+`, outJSON: `[31,15,1000,5]`,
+		},
+		{
+			Name:   "large unsigned integer",
+			inYAML: `x: 18446744073709551615`, outJSON: `{"x":18446744073709551615}`,
+		},
+		{
 			Name:    "tagged binary",
 			inYAML:  `picture: !!binary ` + somePNG,
 			outJSON: `{"picture":"` + somePNG + `"}`,

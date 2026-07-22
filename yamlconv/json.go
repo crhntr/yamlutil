@@ -78,8 +78,15 @@ func encodeScalar(buf []byte, node *yaml.Node) ([]byte, error) {
 		valueBuf, err := json.Marshal(node.Value)
 		return append(buf, valueBuf...), err
 	case intTag:
-		buf = append(buf, node.Value...)
-		return buf, nil
+		var i int64
+		if err := node.Decode(&i); err == nil {
+			return strconv.AppendInt(buf, i, 10), nil
+		}
+		var u uint64
+		if err := node.Decode(&u); err != nil {
+			return nil, err
+		}
+		return strconv.AppendUint(buf, u, 10), nil
 	case floatTag:
 		var val float64
 		err := node.Decode(&val)
