@@ -17,6 +17,14 @@ func TestToJSON(t *testing.T) {
 		})
 	})
 
+	t.Run("unknown node kind", func(t *testing.T) {
+		node := &yaml.Node{Kind: yaml.Kind(99)}
+		require.NotPanics(t, func() {
+			_, err := yamlconv.ToJSON(nil, node)
+			assert.Error(t, err)
+		})
+	})
+
 	t.Run("mapping with a key missing its value", func(t *testing.T) {
 		node := &yaml.Node{
 			Kind: yaml.MappingNode,

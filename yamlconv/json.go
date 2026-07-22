@@ -73,7 +73,7 @@ func ToJSON(buf []byte, node *yaml.Node) ([]byte, error) {
 		buf = append(buf, ']')
 		return buf, nil
 	default:
-		panic(fmt.Errorf("unknown YAML node kind %d", node.Kind))
+		return nil, fmt.Errorf("unknown YAML node kind %d", node.Kind)
 	}
 }
 
