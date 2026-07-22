@@ -11,6 +11,9 @@ import (
 // Consider using Walk or github.com/mikefarah/yq/v3/pkg/yqlib for more sophisticated queries.
 func LookupKey(node *yaml.Node, key string) (*yaml.Node, bool) {
 	return LookupValueFunc(node, func(n *yaml.Node) bool {
+		if n.Kind == yaml.AliasNode && n.Alias != nil {
+			n = n.Alias
+		}
 		return n.Value == key
 	})
 }

@@ -22,6 +22,7 @@ func Test_LookupKey(t *testing.T) {
 		{"empty hash", `{}`, "x", false, nil},
 		{"found key", `{"banana": 32, "orange": 1}`, "banana", true, 32},
 		{"not found key", `{"orange": 1}`, "banana", false, nil},
+		{"alias key", "x: &key banana\n*key: 42\n", "banana", true, 42},
 	}
 	for _, tt := range tests {
 		t.Run(tt.Name, func(t *testing.T) {
