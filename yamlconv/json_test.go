@@ -112,6 +112,10 @@ x:
 `, outJSON: `{"x":{"y":{"z":7}}}`,
 		},
 		{
+			Name:   "key with control character",
+			inYAML: `"a\vb": 1`, outJSON: `{"a\u000bb":1}`,
+		},
+		{
 			Name: "non-decimal integers",
 			inYAML: `---
 - 0x1F

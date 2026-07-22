@@ -38,7 +38,11 @@ func ToJSON(buf []byte, node *yaml.Node) ([]byte, error) {
 			key := node.Content[i]
 			value := node.Content[i+1]
 			if i < len(node.Content)-1 {
-				buf = append(buf, strconv.Quote(key.Value)...)
+				keyBuf, err := json.Marshal(key.Value)
+				if err != nil {
+					return nil, err
+				}
+				buf = append(buf, keyBuf...)
 			}
 			buf = append(buf, ':')
 			buf, err = ToJSON(buf, value)
