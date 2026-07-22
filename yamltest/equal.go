@@ -39,7 +39,12 @@ func assertEqual(t require.TestingT, a, b *yaml.Node, p string) {
 	require.Equalf(t, a.Kind, b.Kind, "kind mismatch at %s", p)
 	switch a.Kind {
 	case yaml.DocumentNode:
-		assertEqual(t, a.Content[0], b.Content[0], "")
+		if !assert.Equalf(t, len(a.Content), len(b.Content), "mismatched document content lengths at %s", p) {
+			return
+		}
+		for i := range a.Content {
+			assertEqual(t, a.Content[i], b.Content[i], p)
+		}
 	case yaml.MappingNode:
 		aKeys := slices.Collect(yamlnode.ValuesStrings(slices.Collect(yamlnode.Keys(a))))
 		bKeys := slices.Collect(yamlnode.ValuesStrings(slices.Collect(yamlnode.Keys(b))))

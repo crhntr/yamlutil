@@ -99,6 +99,39 @@ x:
 		require.True(t, mock.Failed)
 	})
 
+	t.Run("documents without children are equal", func(t *testing.T) {
+		mock := new(mockT)
+		require.NotPanics(t, func() {
+			assertEqual(mock, &yaml.Node{Kind: yaml.DocumentNode}, &yaml.Node{Kind: yaml.DocumentNode}, "")
+		})
+		require.False(t, mock.Failed)
+	})
+
+	t.Run("documents with different child counts are not equal", func(t *testing.T) {
+		mock := new(mockT)
+		one := &yaml.Node{Kind: yaml.DocumentNode, Content: []*yaml.Node{
+			{Kind: yaml.ScalarNode, Tag: "!!int", Value: "1"},
+		}}
+		require.NotPanics(t, func() {
+			assertEqual(mock, &yaml.Node{Kind: yaml.DocumentNode}, one, "")
+		})
+		require.True(t, mock.Failed)
+	})
+
+	t.Run("documents differing after the first child are not equal", func(t *testing.T) {
+		mock := new(mockT)
+		a := &yaml.Node{Kind: yaml.DocumentNode, Content: []*yaml.Node{
+			{Kind: yaml.ScalarNode, Tag: "!!int", Value: "1"},
+			{Kind: yaml.ScalarNode, Tag: "!!int", Value: "2"},
+		}}
+		b := &yaml.Node{Kind: yaml.DocumentNode, Content: []*yaml.Node{
+			{Kind: yaml.ScalarNode, Tag: "!!int", Value: "1"},
+			{Kind: yaml.ScalarNode, Tag: "!!int", Value: "3"},
+		}}
+		assertEqual(mock, a, b, "")
+		require.True(t, mock.Failed)
+	})
+
 	t.Run("exported", func(t *testing.T) {
 		var a, b yaml.Node
 		require.NoError(t, yaml.Unmarshal([]byte(`{}`), &a))
