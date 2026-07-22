@@ -56,7 +56,10 @@ x:
 		{Name: "alternative aliases", A: alternativeAnchor, B: anchorMultiLine, ShouldFail: false},
 		{Name: "alternative aliases swapped", A: anchorMultiLine, B: alternativeAnchor, ShouldFail: false},
 
+		{Name: "equal duplicate keys", A: "a: 1\na: 2\n", B: "a: 1\na: 2\n", ShouldFail: false},
+
 		{Name: "different spacing in quotes", A: `x: " banana"`, B: `x: "banana"`, ShouldFail: true},
+		{Name: "duplicate keys with different later values", A: "a: 1\na: 2\n", B: "a: 1\na: 3\n", ShouldFail: true},
 	} {
 		t.Run(tt.Name, func(t *testing.T) {
 			var a, b yaml.Node

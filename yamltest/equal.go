@@ -37,17 +37,13 @@ func assertEqual(t require.TestingT, a, b *yaml.Node, p string) {
 	case yaml.MappingNode:
 		aKeys := slices.Collect(yamlnode.ValuesStrings(slices.Collect(yamlnode.Keys(a))))
 		bKeys := slices.Collect(yamlnode.ValuesStrings(slices.Collect(yamlnode.Keys(b))))
-		assert.Equal(t, aKeys, bKeys, p)
-		keys := append(aKeys[:len(aKeys):len(aKeys)], bKeys...)
-		slices.Sort(keys)
-		for _, key := range slices.Compact(keys) {
-			aValue, aFound := yamlnode.LookupKey(a, key)
-			assert.Truef(t, aFound, "a missing key %q in %s", key, p)
-			bValue, bFound := yamlnode.LookupKey(b, key)
-			assert.Truef(t, bFound, "b missing key %q in %s", key, p)
-			if aFound && bFound {
-				assertEqual(t, aValue, bValue, fmt.Sprintf("%s.[%q]", p, key))
-			}
+		if !assert.Equal(t, aKeys, bKeys, p) {
+			return
+		}
+		aValues := mappingValues(a)
+		bValues := mappingValues(b)
+		for i, key := range aKeys {
+			assertEqual(t, aValues[i], bValues[i], fmt.Sprintf("%s.[%q]", p, key))
 		}
 	case yaml.SequenceNode:
 		require.Equal(t, len(a.Content), len(b.Content), "mismatched sequence lengths at %s", p)
@@ -63,4 +59,12 @@ func assertEqual(t require.TestingT, a, b *yaml.Node, p string) {
 	default:
 		panic(fmt.Sprintf("un-supported node type %d at %s", a.Kind, p))
 	}
+}
+
+func mappingValues(node *yaml.Node) []*yaml.Node {
+	var values []*yaml.Node
+	for _, value := range yamlnode.KeyValue(node) {
+		values = append(values, value)
+	}
+	return values
 }
