@@ -8,6 +8,9 @@ import (
 // If fn returns an error, Walk returns that error and stops walking.
 // Aliases are followed and may cause an infinite loop.
 func Walk(node *yaml.Node, fn func(node *yaml.Node) error, kinds yaml.Kind) error {
+	if node == nil {
+		return nil
+	}
 	if node.Kind&kinds != 0 {
 		err := fn(node)
 		if err != nil {
